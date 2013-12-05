@@ -1,0 +1,7 @@
+{
+    "description": "Provides HttpServlet wrappers for vert.x objects",
+    "licenses": ["The MIT License"],
+    "author": "Englishtown",
+    "keywords": ["HttpServlet", "servlet", "http servlet"],
+    "homepage": "https://github.com/englishtown/vertx-mod-httpservlet"
+}
