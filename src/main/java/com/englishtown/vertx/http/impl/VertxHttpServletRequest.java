@@ -22,10 +22,19 @@ import java.util.*;
 public class VertxHttpServletRequest implements HttpServletRequest {
 
     private final HttpServerRequest request;
+    private final Map<String, List<String>> formParams;
     private final DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
+
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
     public VertxHttpServletRequest(HttpServerRequest request) {
         this.request = request;
+        this.formParams = new HashMap<>();
+    }
+
+    public VertxHttpServletRequest(HttpServerRequest request, Map<String, List<String>> formParams) {
+        this.request = request;
+        this.formParams = formParams;
     }
 
     /**
@@ -885,10 +894,6 @@ public class VertxHttpServletRequest implements HttpServletRequest {
         return null;
     }
 
-    // TODO: All parameter related methods only get values from query string,
-    // form params are not available due to the async nature of vert.x
-    // Would need to pass the form values in to the constructor.
-
     /**
      * Returns the value of a request parameter as a <code>String</code>,
      * or <code>null</code> if the parameter does not exist. Request parameters
@@ -915,7 +920,15 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String getParameter(String name) {
-        return request.params().get(name);
+        String value = request.params().get(name);
+        if (value != null) {
+            return value;
+        }
+        List<String> values = formParams.get(name);
+        if (values != null && !values.isEmpty()) {
+            return values.get(0);
+        }
+        return null;
     }
 
     /**
@@ -931,7 +944,11 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public Enumeration<String> getParameterNames() {
-        return Collections.enumeration(request.params().names());
+        List<String> names = new ArrayList<>(request.params().names());
+        if (!formParams.isEmpty()) {
+            names.addAll(formParams.keySet());
+        }
+        return Collections.enumeration(names);
     }
 
     /**
@@ -950,11 +967,20 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String[] getParameterValues(String name) {
-        List<String> params = request.params().getAll(name);
-        if (params == null || params.isEmpty()) {
-            return new String[0];
+
+        List<String> values = request.params().getAll(name);
+        if (!formParams.isEmpty()) {
+            List<String> formValues =formParams.get(name);
+            if (formValues != null && !formValues.isEmpty()) {
+                values.addAll(formValues);
+            }
         }
-        return params.toArray(new String[params.size()]);
+
+        if (values != null && !values.isEmpty()) {
+            return values.toArray(new String[values.size()]);
+        }
+
+        return EMPTY_STRING_ARRAY;
     }
 
     /**
@@ -971,11 +997,33 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public Map<String, String[]> getParameterMap() {
-        Map<String, String[]> map = new HashMap<>();
+        Map<String, List<String>> map = new HashMap<>();
+
         for (Map.Entry<String, String> e : request.params()) {
-            map.put(e.getKey(), new String[]{e.getValue()});
+            List<String> values = map.get(e.getKey());
+            if (values == null) {
+                values = new ArrayList<>();
+                map.put(e.getKey(), values);
+            }
+            values.add(e.getValue());
         }
-        return map;
+
+        for (Map.Entry<String, List<String>> e : formParams.entrySet()) {
+            List<String> values = map.get(e.getKey());
+            if (values == null) {
+                values = new ArrayList<>();
+                map.put(e.getKey(), values);
+            }
+            values.addAll(e.getValue());
+        }
+
+        Map<String, String[]> arrayMap = new HashMap<>();
+
+        for (Map.Entry<String, List<String>> e : map.entrySet()) {
+            arrayMap.put(e.getKey(), e.getValue().toArray(new String[e.getValue().size()]));
+        }
+
+        return arrayMap;
     }
 
     /**
