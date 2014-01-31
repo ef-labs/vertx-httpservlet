@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
+import java.net.URI;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -438,7 +439,11 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String getRequestURI() {
-        return request.uri();
+        URI uri = request.absoluteURI();
+        if (uri == null) {
+            return null;
+        }
+        return uri.getPath();
     }
 
     /**
@@ -464,7 +469,13 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public StringBuffer getRequestURL() {
-        return new StringBuffer(request.uri());
+        URI uri = request.absoluteURI();
+        if (uri == null) {
+            return null;
+        }
+        String url = uri.toString();
+        int index = url.indexOf("?");
+        return new StringBuffer(index >= 0 ? url.substring(0, index) : url);
     }
 
     /**
@@ -970,7 +981,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
 
         List<String> values = request.params().getAll(name);
         if (!formParams.isEmpty()) {
-            List<String> formValues =formParams.get(name);
+            List<String> formValues = formParams.get(name);
             if (formValues != null && !formValues.isEmpty()) {
                 values.addAll(formValues);
             }
