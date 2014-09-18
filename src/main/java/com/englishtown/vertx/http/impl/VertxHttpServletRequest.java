@@ -44,7 +44,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * certificate authentication, and may additionally support digest
      * authentication.
      * If the servlet is not authenticated <code>null</code> is returned.
-     * <p/>
+     * <p>
      * <p>Same as the value of the CGI variable AUTH_TYPE.
      *
      * @return one of the static members BASIC_AUTH,
@@ -91,11 +91,11 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * <code>Date</code> object. Use this method with
      * headers that contain dates, such as
      * <code>If-Modified-Since</code>.
-     * <p/>
+     * <p>
      * <p>The date is returned as
      * the number of milliseconds since January 1, 1970 GMT.
      * The header name is case insensitive.
-     * <p/>
+     * <p>
      * <p>If the request did not have a header of the
      * specified name, this method returns -1. If the header
      * can't be converted to a date, the method throws
@@ -155,11 +155,11 @@ public class VertxHttpServletRequest implements HttpServletRequest {
     /**
      * Returns all the values of the specified request header
      * as an <code>Enumeration</code> of <code>String</code> objects.
-     * <p/>
+     * <p>
      * <p>Some headers, such as <code>Accept-Language</code> can be sent
      * by clients as several headers each with a different value rather than
      * sending the header as a comma separated list.
-     * <p/>
+     * <p>
      * <p>If the request did not include any headers
      * of the specified name, this method returns an empty
      * <code>Enumeration</code>.
@@ -185,7 +185,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * Returns an enumeration of all the header names
      * this request contains. If the request has no
      * headers, this method returns an empty enumeration.
-     * <p/>
+     * <p>
      * <p>Some servlet containers do not allow
      * servlets to access headers using this method, in
      * which case this method returns <code>null</code>
@@ -209,7 +209,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * of the specified name, this method returns -1. If the
      * header cannot be converted to an integer, this method
      * throws a <code>NumberFormatException</code>.
-     * <p/>
+     * <p>
      * <p>The header name is case insensitive.
      *
      * @param name a <code>String</code> specifying the name
@@ -252,10 +252,10 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * The extra path information follows the servlet path
      * but precedes the query string and will start with
      * a "/" character.
-     * <p/>
+     * <p>
      * <p>This method returns <code>null</code> if there
      * was no extra path information.
-     * <p/>
+     * <p>
      * <p>Same as the value of the CGI variable PATH_INFO.
      *
      * @return a <code>String</code>, decoded by the
@@ -275,12 +275,12 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * Returns any extra path information after the servlet name
      * but before the query string, and translates it to a real
      * path. Same as the value of the CGI variable PATH_TRANSLATED.
-     * <p/>
+     * <p>
      * <p>If the URL does not have any extra path information,
      * this method returns <code>null</code> or the servlet container
      * cannot translate the virtual path to a real path for any reason
      * (such as when the web application is executed from an archive).
-     * <p/>
+     * <p>
      * The web container does not decode this string.
      *
      * @return a <code>String</code> specifying the
@@ -299,7 +299,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * URI. The path starts with a "/" character but does not end with a "/"
      * character. For servlets in the default (root) context, this method
      * returns "". The container does not decode this string.
-     * <p/>
+     * <p>
      * <p>It is possible that a servlet container may match a context by
      * more than one context path. In such cases this method will return the
      * actual context path used by the request and it may differ from the
@@ -358,7 +358,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * in the specified logical "role".  Roles and role membership can be
      * defined using deployment descriptors.  If the user has not been
      * authenticated, the method returns <code>false</code>.
-     * <p/>
+     * <p>
      * <p>The role name “*” should never be used as an argument in calling
      * <code>isUserInRole</code>. Any call to <code>isUserInRole</code> with
      * “*” must return false.
@@ -419,7 +419,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * name up to the query string in the first line of the HTTP request.
      * The web container does not decode this String.
      * For example:
-     * <p/>
+     * <p>
      * <table summary="Examples of Returned Values">
      * <tr align=left><th>First line of HTTP request      </th>
      * <th>     Returned Value</th>
@@ -428,7 +428,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * <td><td>/a.html
      * <tr><td>HEAD /xyz?a=b HTTP/1.1<td><td>/xyz
      * </table>
-     * <p/>
+     * <p>
      * <p>To reconstruct an URL with a scheme and host, use
      * {@link HttpUtils#getRequestURL}.
      *
@@ -451,16 +451,16 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * The returned URL contains a protocol, server name, port
      * number, and server path, but it does not include query
      * string parameters.
-     * <p/>
+     * <p>
      * <p>If this request has been forwarded using
      * {@link javax.servlet.RequestDispatcher#forward}, the server path in the
      * reconstructed URL must reflect the path used to obtain the
      * RequestDispatcher, and not the server path specified by the client.
-     * <p/>
+     * <p>
      * <p>Because this method returns a <code>StringBuffer</code>,
      * not a string, you can modify the URL easily, for example,
      * to append query parameters.
-     * <p/>
+     * <p>
      * <p>This method is useful for creating redirect messages
      * and for reporting errors.
      *
@@ -485,7 +485,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * the servlet, but does not include any extra path
      * information or a query string. Same as the value of
      * the CGI variable SCRIPT_NAME.
-     * <p/>
+     * <p>
      * <p>This method will return an empty string ("") if the
      * servlet used to process this request was matched using
      * the "/*" pattern.
@@ -507,11 +507,11 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * associated with this request or, if there is no
      * current session and <code>create</code> is true, returns
      * a new session.
-     * <p/>
+     * <p>
      * <p>If <code>create</code> is <code>false</code>
      * and the request has no valid <code>HttpSession</code>,
      * this method returns <code>null</code>.
-     * <p/>
+     * <p>
      * <p>To make sure the session is properly maintained,
      * you must call this method before
      * the response is committed. If the container is using cookies
@@ -562,7 +562,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
 
     /**
      * Checks whether the requested session ID is still valid.
-     * <p/>
+     * <p>
      * <p>If the client did not specify any session ID, this method returns
      * <code>false</code>.
      *
@@ -620,7 +620,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * Use the container login mechanism configured for the
      * <code>ServletContext</code> to authenticate the user making
      * this request.
-     * <p/>
+     * <p>
      * <p>This method may modify and commit the argument
      * <code>HttpServletResponse</code>.
      *
@@ -651,7 +651,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * Validate the provided username and password in the password validation
      * realm used by the web container login mechanism configured for the
      * <code>ServletContext</code>.
-     * <p/>
+     * <p>
      * <p>This method returns without throwing a <code>ServletException</code>
      * when the login mechanism configured for the <code>ServletContext</code>
      * supports username password validation, and when, at the time of the
@@ -661,7 +661,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * and when validation of the provided credentials is successful.
      * Otherwise, this method throws a <code>ServletException</code> as
      * described below.
-     * <p/>
+     * <p>
      * <p>When this method returns without throwing an exception, it must
      * have established non-null values as the values returned by
      * <code>getUserPrincipal</code>, <code>getRemoteUser</code>, and
@@ -702,11 +702,11 @@ public class VertxHttpServletRequest implements HttpServletRequest {
     /**
      * Gets all the {@link javax.servlet.http.Part} components of this request, provided
      * that it is of type <code>multipart/form-data</code>.
-     * <p/>
+     * <p>
      * <p>If this request is of type <code>multipart/form-data</code>, but
      * does not contain any <code>Part</code> components, the returned
      * <code>Collection</code> will be empty.
-     * <p/>
+     * <p>
      * <p>Any changes to the returned <code>Collection</code> must not
      * affect this <code>HttpServletRequest</code>.
      *
@@ -777,7 +777,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
     /**
      * Returns the value of the named attribute as an <code>Object</code>,
      * or <code>null</code> if no attribute of the given name exists.
-     * <p/>
+     * <p>
      * <p> Attributes can be set two ways.  The servlet container may set
      * attributes to make available custom information about a request.
      * For example, for requests made using HTTPS, the attribute
@@ -786,7 +786,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * can also be set programatically using
      * {@link ServletRequest#setAttribute}.  This allows information to be
      * embedded into a request before a {@link RequestDispatcher} call.
-     * <p/>
+     * <p>
      * <p>Attribute names should follow the same conventions as package
      * names. This specification reserves names matching <code>java.*</code>,
      * <code>javax.*</code>, and <code>sun.*</code>.
@@ -910,15 +910,15 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * or <code>null</code> if the parameter does not exist. Request parameters
      * are extra information sent with the request.  For HTTP servlets,
      * parameters are contained in the query string or posted form data.
-     * <p/>
+     * <p>
      * <p>You should only use this method when you are sure the
      * parameter has only one value. If the parameter might have
      * more than one value, use {@link #getParameterValues}.
-     * <p/>
+     * <p>
      * <p>If you use this method with a multivalued
      * parameter, the value returned is equal to the first value
      * in the array returned by <code>getParameterValues</code>.
-     * <p/>
+     * <p>
      * <p>If the parameter data was sent in the request body, such as occurs
      * with an HTTP POST request, then reading the body directly via {@link
      * #getInputStream} or {@link #getReader} can interfere
@@ -966,7 +966,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * Returns an array of <code>String</code> objects containing
      * all of the values the given request parameter has, or
      * <code>null</code> if the parameter does not exist.
-     * <p/>
+     * <p>
      * <p>If the parameter has a single value, the array has a length
      * of 1.
      *
@@ -996,7 +996,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
 
     /**
      * Returns a java.util.Map of the parameters of this request.
-     * <p/>
+     * <p>
      * <p>Request parameters are extra information sent with the request.
      * For HTTP servlets, parameters are contained in the query string or
      * posted form data.
@@ -1155,7 +1155,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * Stores an attribute in this request.
      * Attributes are reset between requests.  This method is most
      * often used in conjunction with {@link RequestDispatcher}.
-     * <p/>
+     * <p>
      * <p>Attribute names should follow the same conventions as
      * package names. Names beginning with <code>java.*</code>,
      * <code>javax.*</code>, and <code>com.sun.*</code>, are
@@ -1180,7 +1180,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * Removes an attribute from this request.  This method is not
      * generally needed as attributes only persist as long as the request
      * is being handled.
-     * <p/>
+     * <p>
      * <p>Attribute names should follow the same conventions as
      * package names. Names beginning with <code>java.*</code>,
      * <code>javax.*</code>, and <code>com.sun.*</code>, are
@@ -1248,13 +1248,13 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * A <code>RequestDispatcher</code> object can be used to forward
      * a request to the resource or to include the resource in a response.
      * The resource can be dynamic or static.
-     * <p/>
+     * <p>
      * <p>The pathname specified may be relative, although it cannot extend
      * outside the current servlet context.  If the path begins with
      * a "/" it is interpreted as relative to the current context root.
      * This method returns <code>null</code> if the servlet container
      * cannot return a <code>RequestDispatcher</code>.
-     * <p/>
+     * <p>
      * <p>The difference between this method and {@link
      * ServletContext#getRequestDispatcher} is that this method can take a
      * relative path.
@@ -1351,12 +1351,12 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * Puts this request into asynchronous mode, and initializes its
      * {@link javax.servlet.AsyncContext} with the original (unwrapped) ServletRequest
      * and ServletResponse objects.
-     * <p/>
+     * <p>
      * <p>Calling this method will cause committal of the associated
      * response to be delayed until {@link javax.servlet.AsyncContext#complete} is
      * called on the returned {@link javax.servlet.AsyncContext}, or the asynchronous
      * operation has timed out.
-     * <p/>
+     * <p>
      * <p>Calling {@link javax.servlet.AsyncContext#hasOriginalRequestAndResponse()} on
      * the returned AsyncContext will return <code>true</code>. Any filters
      * invoked in the <i>outbound</i> direction after this request was put
@@ -1365,13 +1365,13 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * invocation need not stay around for the duration of the asynchronous
      * operation, and therefore any of their associated resources may be
      * released.
-     * <p/>
+     * <p>
      * <p>This method clears the list of {@link javax.servlet.AsyncListener} instances
      * (if any) that were registered with the AsyncContext returned by the
      * previous call to one of the startAsync methods, after calling each
      * AsyncListener at its {@link javax.servlet.AsyncListener#onStartAsync onStartAsync}
      * method.
-     * <p/>
+     * <p>
      * <p>Subsequent invocations of this method, or its overloaded
      * variant, will return the same AsyncContext instance, reinitialized
      * as appropriate.
@@ -1396,19 +1396,19 @@ public class VertxHttpServletRequest implements HttpServletRequest {
     /**
      * Puts this request into asynchronous mode, and initializes its
      * {@link javax.servlet.AsyncContext} with the given request and response objects.
-     * <p/>
+     * <p>
      * <p>The ServletRequest and ServletResponse arguments must be
      * the same instances, or instances of {@link javax.servlet.ServletRequestWrapper} and
      * {@link javax.servlet.ServletResponseWrapper} that wrap them, that were passed to the
      * {@link javax.servlet.Servlet#service service} method of the Servlet or the
      * {@link javax.servlet.Filter#doFilter doFilter} method of the Filter, respectively,
      * in whose scope this method is being called.
-     * <p/>
+     * <p>
      * <p>Calling this method will cause committal of the associated
      * response to be delayed until {@link javax.servlet.AsyncContext#complete} is
      * called on the returned {@link javax.servlet.AsyncContext}, or the asynchronous
      * operation has timed out.
-     * <p/>
+     * <p>
      * <p>Calling {@link javax.servlet.AsyncContext#hasOriginalRequestAndResponse()} on
      * the returned AsyncContext will return <code>false</code>,
      * unless the passed in ServletRequest and ServletResponse arguments
@@ -1426,13 +1426,13 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      * a call to {@link javax.servlet.AsyncContext#getRequest()}, does not contain said
      * ServletRequestWrapper. The same holds true for ServletResponseWrapper
      * instances.
-     * <p/>
+     * <p>
      * <p>This method clears the list of {@link javax.servlet.AsyncListener} instances
      * (if any) that were registered with the AsyncContext returned by the
      * previous call to one of the startAsync methods, after calling each
      * AsyncListener at its {@link javax.servlet.AsyncListener#onStartAsync onStartAsync}
      * method.
-     * <p/>
+     * <p>
      * <p>Subsequent invocations of this method, or its zero-argument
      * variant, will return the same AsyncContext instance, reinitialized
      * as appropriate. If a call to this method is followed by a call to its
@@ -1462,11 +1462,11 @@ public class VertxHttpServletRequest implements HttpServletRequest {
 
     /**
      * Checks if this request has been put into asynchronous mode.
-     * <p/>
+     * <p>
      * <p>A ServletRequest is put into asynchronous mode by calling
      * {@link #startAsync} or
      * {@link #startAsync(javax.servlet.ServletRequest, javax.servlet.ServletResponse)} on it.
-     * <p/>
+     * <p>
      * <p>This method returns <tt>false</tt> if this request was
      * put into asynchronous mode, but has since been dispatched using
      * one of the {@link javax.servlet.AsyncContext#dispatch} methods or released
@@ -1483,7 +1483,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
 
     /**
      * Checks if this request supports asynchronous operation.
-     * <p/>
+     * <p>
      * <p>Asynchronous operation is disabled for this request if this request
      * is within the scope of a filter or servlet that has not been annotated
      * or flagged in the deployment descriptor as being able to support
@@ -1519,17 +1519,17 @@ public class VertxHttpServletRequest implements HttpServletRequest {
 
     /**
      * Gets the dispatcher type of this request.
-     * <p/>
+     * <p>
      * <p>The dispatcher type of a request is used by the container
      * to select the filters that need to be applied to the request:
      * Only filters with matching dispatcher type and url patterns will
      * be applied.
-     * <p/>
+     * <p>
      * <p>Allowing a filter that has been configured for multiple
      * dispatcher types to query a request for its dispatcher type
      * allows the filter to process the request differently depending on
      * its dispatcher type.
-     * <p/>
+     * <p>
      * <p>The initial dispatcher type of a request is defined as
      * <code>DispatcherType.REQUEST</code>. The dispatcher type of a request
      * dispatched via {@link javax.servlet.RequestDispatcher#forward(javax.servlet.ServletRequest,
