@@ -2,14 +2,14 @@ package com.englishtown.vertx.http.impl;
 
 import io.netty.handler.codec.http.CookieDecoder;
 import io.netty.handler.codec.http.HttpHeaders;
-import org.vertx.java.core.http.HttpServerRequest;
+import io.vertx.core.http.HttpServerRequest;
+import io.vertx.core.net.SocketAddress;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.InetSocketAddress;
 import java.net.URI;
 import java.security.Principal;
 import java.text.DateFormat;
@@ -18,11 +18,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * HttpServletRequest wrapper over a vert.x {@link org.vertx.java.core.http.HttpServerRequest}
+ * HttpServletRequest wrapper over a vert.x {@link io.vertx.core.http.HttpServerRequest}
  */
 public class VertxHttpServletRequest implements HttpServletRequest {
 
     private final HttpServerRequest request;
+    private final URI requestUri;
     private final Map<String, List<String>> formParams;
     private final DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
 
@@ -30,11 +31,13 @@ public class VertxHttpServletRequest implements HttpServletRequest {
 
     public VertxHttpServletRequest(HttpServerRequest request) {
         this.request = request;
+        this.requestUri = URI.create(request.absoluteURI());
         this.formParams = new HashMap<>();
     }
 
     public VertxHttpServletRequest(HttpServerRequest request, Map<String, List<String>> formParams) {
         this.request = request;
+        this.requestUri = URI.create(request.absoluteURI());
         this.formParams = formParams;
     }
 
@@ -243,7 +246,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String getMethod() {
-        return request.method();
+        return request.method().toString();
     }
 
     /**
@@ -439,11 +442,10 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String getRequestURI() {
-        URI uri = request.absoluteURI();
-        if (uri == null) {
+        if (requestUri == null) {
             return null;
         }
-        return uri.getPath();
+        return requestUri.getPath();
     }
 
     /**
@@ -469,13 +471,12 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public StringBuffer getRequestURL() {
-        URI uri = request.absoluteURI();
+        String uri = request.absoluteURI();
         if (uri == null) {
             return null;
         }
-        String url = uri.toString();
-        int index = url.indexOf("?");
-        return new StringBuffer(index >= 0 ? url.substring(0, index) : url);
+        int index = uri.indexOf("?");
+        return new StringBuffer(index >= 0 ? uri.substring(0, index) : uri);
     }
 
     /**
@@ -1064,7 +1065,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String getScheme() {
-        return request.absoluteURI().getScheme();
+        return requestUri.getScheme();
     }
 
     /**
@@ -1077,7 +1078,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String getServerName() {
-        return request.absoluteURI().getHost();
+        return requestUri.getHost();
     }
 
     /**
@@ -1090,7 +1091,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public int getServerPort() {
-        int port = request.absoluteURI().getPort();
+        int port = requestUri.getPort();
         if (port == 0) {
             return ("https".equals(getScheme())) ? 443 : 80;
         }
@@ -1128,7 +1129,7 @@ public class VertxHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String getRemoteAddr() {
-        InetSocketAddress address = request.remoteAddress();
+        SocketAddress address = request.remoteAddress();
         if (address == null) {
             return null;
         }
