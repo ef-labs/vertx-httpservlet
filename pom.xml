@@ -4,7 +4,7 @@
 
     <artifactId>vertx-httpservlet-parent</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.0-RC1</version>
+    <version>2.0.0-RC2</version>
 
     <parent>
         <groupId>com.englishtown.vertx</groupId>
@@ -17,7 +17,7 @@
     </modules>
 
     <properties>
-        <vertx.version>3.0.0-milestone4</vertx.version>
+        <vertx.version>3.0.0-milestone5</vertx.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
     </properties>
 
