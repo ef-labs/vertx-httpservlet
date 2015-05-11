@@ -17,7 +17,7 @@
     </modules>
 
     <properties>
-        <vertx.version>3.0.0-milestone4</vertx.version>
+        <vertx.version>3.0.0-milestone5</vertx.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
     </properties>
 
