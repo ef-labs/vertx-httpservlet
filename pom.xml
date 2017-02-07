@@ -18,6 +18,7 @@
 
     <properties>
         <javax.servlet.version>3.1.0</javax.servlet.version>
+        <mockito.version>2.7.0</mockito.version>
     </properties>
 
     <dependencyManagement>
