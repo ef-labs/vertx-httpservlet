@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -30,15 +31,58 @@ public class VertxHttpServletRequest implements HttpServletRequest {
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
     public VertxHttpServletRequest(HttpServerRequest request) {
-        this.request = request;
-        this.requestUri = URI.create(request.absoluteURI());
-        this.formParams = new HashMap<>();
+        this(request, new HashMap<>());
     }
 
     public VertxHttpServletRequest(HttpServerRequest request, Map<String, List<String>> formParams) {
         this.request = request;
-        this.requestUri = URI.create(request.absoluteURI());
+        this.requestUri = parseUri(request);
         this.formParams = formParams;
+    }
+
+    private URI parseUri(HttpServerRequest request) {
+        String uri = request.absoluteURI();
+
+        if (uri != null) {
+            return URI.create(uri);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(request.scheme())
+                .append("://")
+                .append(request.host())
+                .append(request.path());
+
+        // Special handling queries with encoding problems:
+        String query = request.query();
+
+
+        if (query != null) {
+            sb.append("?");
+
+            String[] split = query.split("&");
+            String delimiter = "";
+
+            try {
+                for (String pair : split) {
+                    sb.append(delimiter);
+                    delimiter = "&";
+                    int index = pair.indexOf('=');
+
+                    if (index > 0) {
+                        String key = pair.substring(0, index);
+                        String value = pair.substring(index + 1, pair.length());
+                        sb.append(key)
+                                .append("=")
+                                .append(URLEncoder.encode(value, "UTF-8"));
+                    }
+                }
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return URI.create(sb.toString());
     }
 
     /**
